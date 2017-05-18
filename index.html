@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery Credit Card Validator Example</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="jquery.creditCardValidator.js"></script>
+	<style>
+	
+		.cardtype label {
+		  color: #555;
+		  display: block;
+		  font-size: 14px;
+		  font-weight: 400;
+		}
+		.cardtype input {
+		  background-color: #fff;
+		  border: 1px solid #e5e5e5;
+		  color: #333;
+		  display: block;
+		  font-size: 18px;
+		  height: 32px;
+		  padding: 0 5px;
+		  width: 275px;
+		  -moz-box-sizing: content-box;
+		  -webkit-box-sizing: content-box;
+		}
+		.cardtype input::-webkit-input-placeholder {
+		  color: #ddd;
+		}
+		.cardtype input:-moz-placeholder {
+		  color: #ddd;
+		  opacity: 1;
+		}
+		.cardtype input::-moz-placeholder {
+		  color: #ddd;
+		  opacity: 1;
+		}
+		.cardtype input:-ms-input-placeholder {
+		  color: #ddd;
+		}
+		.cardtype input:focus {
+		  outline: 1px solid #3388dd;
+		}
+		.cardtype .cardnumber {
+		  background-image: url(images/images.png), url(images/images.png);
+		  background-position: 2px -121px, 260px -61px;
+		  background-size: 120px 361px, 120px 361px;
+		  background-repeat: no-repeat;
+		  padding-left: 54px;
+		  width: 225px;
+		}
+		.cardtype .cardnumber.visa {
+		  background-position: 2px -163px, 260px -61px;
+		}
+		.cardtype .cardnumber.visa_electron {
+		  background-position: 2px -205px, 260px -61px;
+		}
+		.cardtype .cardnumber.mastercard {
+		  background-position: 2px -247px, 260px -61px;
+		}
+		.cardtype .cardnumber.maestro {
+		  background-position: 2px -289px, 260px -61px;
+		}
+		.cardtype .cardnumber.discover {
+		  background-position: 2px -331px, 260px -61px;
+		}
+		.cardtype .cardnumber.valid.visa {
+		  background-position: 2px -163px, 260px -87px;
+		}
+		.cardtype .cardnumber.valid.visa_electron {
+		  background-position: 2px -205px, 260px -87px;
+		}
+		.cardtype .cardnumber.valid.mastercard {
+		  background-position: 2px -247px, 260px -87px;
+		}
+		.cardtype .cardnumber.valid.maestro {
+		  background-position: 2px -289px, 260px -87px;
+		}
+		.cardtype .cardnumber.valid.discover {
+		  background-position: 2px -331px, 260px -87px;
+		}
+</style>
+</head>
+<body>
+ <form>
+	<div class="cardtype">
+     <input type="text" name="card_number" id="card_number1" class="cardnumber" placeholder="1234 5678 9012 3456">
+	 </div>
+	</form>
+</body>
+
+<script>
+    $(function() {
+        $('.cardnumber').validateCreditCard(function(result) {
+		
+		$(this).removeClass().addClass("cardnumber");
+      if (result.card_type == null) {
+        $('.vertical.maestro').slideUp({
+          duration: 200
+        }).animate({
+          opacity: 0
+        }, {
+          queue: false,
+          duration: 200
+        });
+        return;
+      }
+      $(this).addClass(result.card_type.name);
+      if (result.card_type.name === 'maestro') {
+        $('.vertical.maestro').slideDown({
+          duration: 200
+        }).animate({
+          opacity: 1
+        }, {
+          queue: false
+        });
+      } else {
+        $('.vertical.maestro').slideUp({
+          duration: 200
+        }).animate({
+          opacity: 0
+        }, {
+          queue: false,
+          duration: 200
+        });
+      }
+      if (result.valid) {
+	    return $(this).addClass('valid');
+      } else {
+        return $(this).removeClass('valid');
+      }
+	  
+    });
+    });
+</script>
+</html>
